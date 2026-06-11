@@ -1,0 +1,118 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 24px;
+  flex: 1;
+  background: radial-gradient(circle at bottom right, rgba(99, 102, 241, 0.05) 0%, transparent 50%);
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  box-shadow: var(--shadow-lg);
+}
+
+.title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.roleSelector {
+  display: flex;
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+.roleTab {
+  flex: 1;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.roleTab:hover {
+  color: var(--text-primary);
+}
+
+.activeTab {
+  background-color: var(--border);
+  color: var(--text-primary) !important;
+}
+
+.errorAlert {
+  background-color: var(--danger-glow);
+  color: var(--danger);
+  border: 1px solid rgba(239, 68, 68, 0.2);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.successAlert {
+  background-color: var(--accent-glow);
+  color: var(--accent);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.submitBtn {
+  width: 100%;
+  padding: 12px;
+  font-size: 0.95rem;
+  margin-top: 10px;
+}
+
+.footerText {
+  text-align: center;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin-top: 24px;
+}
+
+.link {
+  color: var(--primary);
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.link:hover {
+  color: var(--primary-hover);
+  text-decoration: underline;
+}

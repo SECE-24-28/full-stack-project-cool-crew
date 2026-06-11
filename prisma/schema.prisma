@@ -1,0 +1,114 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  student
+  company
+  admin
+}
+
+enum Status {
+  pending
+  approved
+  rejected
+}
+
+enum ApplicationStatus {
+  pending
+  shortlisted
+  rejected
+}
+
+model User {
+  id             String          @id @default(uuid())
+  name           String
+  email          String          @unique
+  password       String
+  role           Role
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  
+  studentProfile StudentProfile?
+  companyProfile CompanyProfile?
+  internships    Internship[]    @relation("CompanyPostings")
+  applications   Application[]
+}
+
+model StudentProfile {
+  id             String          @id @default(uuid())
+  userId         String          @unique
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  skills         String[]        @default([])
+  bio            String          @default("")
+  resumeUrl      String          @default("")
+  resumePublicId String          @default("")
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  
+  education      Education[]
+}
+
+model Education {
+  id               String          @id @default(uuid())
+  studentProfileId String
+  studentProfile   StudentProfile  @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+  institution      String
+  degree           String
+  fieldOfStudy     String          @default("")
+  startYear        String          @default("")
+  endYear          String          @default("")
+}
+
+model CompanyProfile {
+  id             String          @id @default(uuid())
+  userId         String          @unique
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName    String
+  website        String          @default("")
+  description    String          @default("")
+  logoUrl        String          @default("")
+  logoPublicId   String          @default("")
+  location       String          @default("")
+  isVerified     Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+}
+
+model Internship {
+  id             String          @id @default(uuid())
+  companyId      String
+  company        User            @relation("CompanyPostings", fields: [companyId], references: [id], onDelete: Cascade)
+  title          String
+  description    String
+  skillsRequired String[]        @default([])
+  stipend        String
+  duration       String
+  location       String
+  status         Status          @default(pending)
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  applications   Application[]
+}
+
+model Application {
+  id             String            @id @default(uuid())
+  internshipId   String
+  internship     Internship        @relation(fields: [internshipId], references: [id], onDelete: Cascade)
+  studentId      String
+  student        User              @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  resumeUrl      String
+  status         ApplicationStatus @default(pending)
+  aiMatchScore   Int               @default(0)
+  appliedAt      DateTime          @default(now())
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@unique([internshipId, studentId]) // Ensure students apply only once per internship
+}
